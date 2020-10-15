@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/model/todo.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/util/dbhelper.dart';
+
+DbHelper helper = DbHelper();
+
+final List<String> choices = const <String>[
+  'Save Todo & Back',
+  'Delete Todo',
+  'Back to List'
+];
+
+const mnuSave = 'Save Todo & Back';
+const mnuDelete = 'Delete Todo';
+const mnuBack = 'Back to List';
 
 class TodoDetail extends StatefulWidget {
   final Todo todo;
@@ -32,6 +45,17 @@ class TodoDetailState extends State {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text(todo.title),
+          actions: [
+            PopupMenuButton<String>(
+              onSelected: select,
+              itemBuilder: (BuildContext context) {
+                return choices.map((String choice) {
+                  return PopupMenuItem<String>(
+                      value: choice, child: Text(choice));
+                }).toList();
+              },
+            )
+          ],
         ),
         body: Padding(
             padding: const EdgeInsets.only(top: 35.0, left: 10.0, right: 10.0),
@@ -78,4 +102,6 @@ class TodoDetailState extends State {
               ],
             )));
   }
+
+  void select(String value) {}
 }
